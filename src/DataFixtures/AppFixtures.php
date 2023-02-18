@@ -4,34 +4,43 @@ namespace App\DataFixtures;
 
 use App\Entity\ProductCategories;
 use App\Entity\Products;
-use App\Entity\Users;
+use App\Entity\User;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 
 class AppFixtures extends Fixture
 {
+    private UserPasswordHasherInterface $hasher;
+
+    public function __construct(UserPasswordHasherInterface $hasher)
+    {
+        $this->hasher = $hasher;
+    }
+
     public function load(ObjectManager $manager): void
     {
         // $product = new Product();
         // $manager->persist($product);
 
+
+
         for ($i = 0; $i < 50; $i++) {
-            $user = new Users();
-            if ($i == 0) {
-                $user->setRole('ADMIN');
-                $user->setmail("admin@localhost");
-                $user->setPassword('admin');
-                $manager->persist($user);
+            $user = new User();
+           $user->setEmail("user" .$i . "@localhost");
+            $password = $this->hasher->hashPassword($user, 'passwordHasher');
+            $user->setPassword($password);
+            if ($i == 0)
+                $user->setRoles([
+                    'ROLE_ADMIN',
+                    'ROLE_USER'
+                ]);
+            else
+                $user->setRoles(['ROLE_USER']);
 
-            }else {
-
-                $user->setRole('USER');
-                $user->setmail("user" .$i . "@localhost");
-                $user->setPassword('user' . $i);
-                $manager->persist($user);
-            }
-
+            $manager->persist($user);
         }
         $manager->flush();
 
