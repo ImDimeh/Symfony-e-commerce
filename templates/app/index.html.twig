@@ -5,7 +5,10 @@
 {% block body %}
     {% for categorie in categories %}
 
+
+        
         <h2> {{ categorie.name }}  </h2>
+        <li>  <a href="{{ path('app_categorie_id' ,{'id':categorie.id}) }}">{{ categorie.id }} cliquez ici </a>  </li>
     {% endfor %}
 
 

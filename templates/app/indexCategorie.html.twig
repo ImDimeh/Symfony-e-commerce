@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AppController!{% endblock %}
+
+{% block body %}
+ <h1> {{ product_categories.name }}           {{ product_categories.id }} </h1>
+
+
+       {% for product in product_categories.getCategorie() %}
+          <h4> {{ product.name }}</h4>
+       {% endfor %}
+
+   <h1> produit les moins chere   </h1>
+   <ul>
+
+
+    {% for product in ASCProduct %}
+
+             <li> <a> {{ product.name }}  , {{ product.price}} € </a></li>
+         {% endfor %}
+
+   </ul>
+
+    <h1> produit les plus chere   </h1>
+    <ul>
+
+
+        {% for product in DESCProduct %}
+
+            <li> <a> {{ product.name }}  , {{ product.price}} € </a></li>
+        {% endfor %}
+
+    </ul>
+{% endblock %}
