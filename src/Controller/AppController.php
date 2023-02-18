@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ProductCategoriesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,4 +16,13 @@ class AppController extends AbstractController
             'controller_name' => 'AppController',
         ]);
     }
+    #[Route('/', name: 'app_home')]
+public function home(ProductCategoriesRepository $categoriesRepository ): Response
+{
+    return $this->render('app/index.html.twig', [
+        'controller_name' => 'AppController',
+        'categories' => $categoriesRepository->findAll(),
+    ]);}
+
+
 }
